@@ -1,6 +1,8 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func ShowAllUserProjects(c *gin.Context) {
 
@@ -10,6 +12,6 @@ func ShowAllUserProjects(c *gin.Context) {
 
 }
 
-func createProjects(c *gin.Context) {}
+func CreateProjects(c *gin.Context) {}
 
-func deleteProject(c *gin.Context) {}
+func DeleteProject(c *gin.Context) {}

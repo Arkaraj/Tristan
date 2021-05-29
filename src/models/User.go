@@ -1,14 +1,14 @@
-package entity
+package models
 
 import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type User struct {
-	_id         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	name        string             `json:"name" bson:"name"`
-	description string             `json:"description" bson:"name"`
-	tag         string             `json:"tag" bson:"tag"`
-	skills      []Skill            `json:"skills" bson:"skills"`
-	projects    []Project          `json:"projects" bson:"projects"`
+	Id          primitive.ObjectID   `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string               `json:"name" bson:"name"`
+	Description string               `json:"description" bson:"name"`
+	Tag         string               `json:"tag" bson:"tag"`
+	Skills      []primitive.ObjectID `json:"skills" bson:"skills"`
+	Projects    []primitive.ObjectID `json:"projects" bson:"projects"`
 }

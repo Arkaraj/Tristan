@@ -1,8 +1,13 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	// "go.mongodb.org/mongo-driver/bson"
+)
 
 func ShowUser(c *gin.Context) {
+
+	// filter := bson.D{{"name", "arkaraj"}}
 
 	c.JSON(200, gin.H{
 		"message": "Hello User",
@@ -10,10 +15,14 @@ func ShowUser(c *gin.Context) {
 
 }
 
-func addUserDetails(c *gin.Context) {}
+func AddUserDetails(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "Hello User",
+	})
+}
 
-func updateUserDetails(c *gin.Context) {}
+func UpdateUserDetails(c *gin.Context) {}
 
-func addSkillsToUser(c *gin.Context) {}
+func AddSkillsToUser(c *gin.Context) {}
 
-func addProjectsToUser(c *gin.Context) {}
+func AddProjectsToUser(c *gin.Context) {}

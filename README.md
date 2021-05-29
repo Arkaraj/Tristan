@@ -41,7 +41,7 @@ interface IProject {
 ```
 
 - [ ] User can add details about themselves
-- [ ] User should be able to create skills
+- [x] User should be able to create skills
 - [ ] User should be able to add/remove sills to their profile
 - [ ] User should be able to create Projects
 - [ ] User should be able to add/remove projects to their profile
@@ -57,9 +57,17 @@ interface IProject {
 - GET /api/projects/ Get all projects
 - POST /api/projects User can create projects
 - DELETE /api/projects User can delete projects
-- POST /api/skills/:skillId add skill to User profile
-- POST /api/projects/:projectId add project to User profile
+- POST /api/user/skill/:skillId add skill to User profile
+- POST /api/user/project/:projectId add project to User profile
 
 ### Route Testing
 
 - Postman
+
+### To Run it Locally
+
+Create a .env file:
+
+```
+MONGO_URL=
+```
