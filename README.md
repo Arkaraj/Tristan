@@ -4,7 +4,7 @@
 
 - Go/Golang
 - Gin module (https://github.com/gin-gonic/gin)
-- NoSQL - MongoDB (maybe if i use a database)
+- NoSQL - MongoDB
 
 Gin - Web Framework, like express for node
 
@@ -40,22 +40,25 @@ interface IProject {
 }
 ```
 
-- [] User can add details about themselves
-- [] User should be able to create skills
-- [] User should be able to add/remove sills to their profile
-- [] User should be able to create Projects
-- [] User should be able to add/remove projects to their profile
+- [ ] User can add details about themselves
+- [ ] User should be able to create skills
+- [ ] User should be able to add/remove sills to their profile
+- [ ] User should be able to create Projects
+- [ ] User should be able to add/remove projects to their profile
 
 ### Routes
 
 - GET /api/user/ Show User full details
+- PUT /api/user/ Update User details
 - POST /api/user User can add details about themselves
+- GET /api/skills Get all skills
 - POST /api/skills User can create skills
+- DELETE /api/skills User can delete skills
+- GET /api/projects/ Get all projects
 - POST /api/projects User can create projects
+- DELETE /api/projects User can delete projects
 - POST /api/skills/:skillId add skill to User profile
 - POST /api/projects/:projectId add project to User profile
-- DELETE /api/skills/:skillId remove skill to User profile
-- DELETE /api/projects/:projectId remove project to User profile
 
 ### Route Testing
 
