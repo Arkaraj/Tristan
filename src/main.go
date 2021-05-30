@@ -38,14 +38,15 @@ func main() {
 
 		skill.POST("/", routes.CreateSkills)
 
-		skill.DELETE("/", routes.DeleteSkill)
+		skill.DELETE("/:skillId", routes.DeleteSkill)
 	}
 
 	projects := server.Group("/api/project")
 	{
 		projects.GET("/", routes.ShowAllUserProjects)
 		projects.POST("/", routes.CreateProjects)
-		projects.DELETE("/", routes.DeleteProject)
+		projects.POST("/:projectId/:skillId", routes.AddSkillsToProjects)
+		projects.DELETE("/:projectId", routes.DeleteProject)
 	}
 
 	port := ":7000"

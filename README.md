@@ -4,6 +4,7 @@
 
 - Go/Golang
 - Gin module (https://github.com/gin-gonic/gin)
+- mongo Go Driver (https://github.com/mongodb/mongo-go-driver)
 - NoSQL - MongoDB
 
 Gin - Web Framework, like express for node
@@ -51,12 +52,13 @@ interface IProject {
 - GET /api/user/ Show User full details
 - PUT /api/user/ Update User details
 - POST /api/user User can add details about themselves
-- GET /api/skills Get all skills
-- POST /api/skills User can create skills
-- DELETE /api/skills User can delete skills
-- GET /api/projects/ Get all projects
-- POST /api/projects User can create projects
-- DELETE /api/projects User can delete projects
+- GET /api/skill Get all skills
+- POST /api/skill User can create skills
+- DELETE /api/skill/:skillId User can delete skills
+- GET /api/project/ Get all projects
+- POST /api/project User can create projects
+- POST /api/project/:projectId/:skillId User can add skills to projects
+- DELETE /api/project/:projectId User can delete projects
 - POST /api/user/skill/:skillId add skill to User profile
 - POST /api/user/project/:projectId add project to User profile
 
