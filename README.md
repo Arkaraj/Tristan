@@ -41,11 +41,13 @@ interface IProject {
 }
 ```
 
-- [ ] User can add details about themselves
+- [x] User can add details about themselves
 - [x] User should be able to create skills
-- [ ] User should be able to add/remove sills to their profile
-- [ ] User should be able to create Projects
-- [ ] User should be able to add/remove projects to their profile
+- [x] User should be able to add/remove sills to their profile
+- [x] User should be able to create Projects
+- [x] User should be able to add/remove projects to their profile
+
+Need help in populating in mongo-driver...
 
 ### Routes
 
@@ -57,7 +59,7 @@ interface IProject {
 - DELETE /api/skill/:skillId User can delete skills
 - GET /api/project/ Get all projects
 - POST /api/project User can create projects
-- POST /api/project/:projectId/:skillId User can add skills to projects
+- PUT /api/project/:projectId/:skillId User can add skills to projects
 - DELETE /api/project/:projectId User can delete projects
 - POST /api/user/skill/:skillId add skill to User profile
 - POST /api/user/project/:projectId add project to User profile
@@ -65,6 +67,8 @@ interface IProject {
 ### Route Testing
 
 - Postman
+
+Link: https://www.getpostman.com/collections/7fd174330f0832455f0a
 
 ### To Run it Locally
 

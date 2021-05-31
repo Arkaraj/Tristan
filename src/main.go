@@ -23,13 +23,13 @@ func main() {
 	server.GET("/api/", api)
 
 	// Groups
-	user := server.Group("/api/user")
+	user := server.Group("/api/me")
 	{
 		user.GET("/", routes.ShowUser)
 		user.POST("/", routes.AddUserDetails)
 		user.PUT("/", routes.UpdateUserDetails)
-		user.POST("/skill/:skillId", routes.AddSkillsToUser)
-		user.POST("/project/:projectId", routes.AddProjectsToUser)
+		user.POST("/skill/:userId/:skillId/", routes.AddSkillsToUser)
+		user.POST("/project/:userId/:projectId", routes.AddProjectsToUser)
 	}
 
 	skill := server.Group("/api/skill")
@@ -45,7 +45,7 @@ func main() {
 	{
 		projects.GET("/", routes.ShowAllUserProjects)
 		projects.POST("/", routes.CreateProjects)
-		projects.POST("/:projectId/:skillId", routes.AddSkillsToProjects)
+		projects.PUT("/:projectId/:skillId", routes.AddSkillsToProjects)
 		projects.DELETE("/:projectId", routes.DeleteProject)
 	}
 

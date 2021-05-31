@@ -78,7 +78,52 @@ func CreateProjects(c *gin.Context) {
 
 }
 
-func AddSkillsToProjects(c *gin.Context) {}
+func AddSkillsToProjects(c *gin.Context) {
+
+	paramProjectId := c.Param("projectId")
+	paramSkillId := c.Param("skillId")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	projectId, err := primitive.ObjectIDFromHex(paramProjectId)
+	skillId, err := primitive.ObjectIDFromHex(paramSkillId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	} else {
+
+		var work models.Project
+
+		err := projectCollection.FindOne(context.TODO(),bson.M{"_id": bson.M{"$eq": projectId}}).Decode(&work)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		skill := work.Skills
+
+		skill = append(skill, skillId)
+
+		filter := bson.M{"_id": bson.M{"$eq": projectId}}
+		update := bson.M{"$set": bson.M{"skills": skill}}
+
+		// var result bson.M
+		project, err := projectCollection.UpdateOne(ctx, filter, update)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		} else {
+			work.Skills = append(work.Skills, skillId)
+			c.JSON(http.StatusOK, gin.H{
+				"update":project,
+				"project": work,
+			})
+		}
+
+	}
+
+}
 
 func DeleteProject(c *gin.Context) {
 
