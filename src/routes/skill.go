@@ -1,10 +1,10 @@
 package routes
 
 import (
+	"Tristan/src/database"
+	"Tristan/src/models"
 	"context"
 	"fmt"
-	"goRestAPI/src/database"
-	"goRestAPI/src/models"
 	"log"
 	"net/http"
 	"time"

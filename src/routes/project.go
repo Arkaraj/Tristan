@@ -1,10 +1,10 @@
 package routes
 
 import (
+	"Tristan/src/database"
+	"Tristan/src/models"
 	"context"
 	"fmt"
-	"goRestAPI/src/database"
-	"goRestAPI/src/models"
 	"log"
 	"net/http"
 	"time"
@@ -22,21 +22,36 @@ func ShowAllUserProjects(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	filter := bson.M{}
+	// filter := bson.M{}
 
-	cursor, err := projectCollection.Find(context.TODO(), filter)
+	lookupQuery := bson.D{{"$lookup", bson.D{{"from", "Skill"}, {"localField", "skills"}, {"foreignField", "_id"}, {"as", "projectSkills"}}}}
+
+	cursor, err := projectCollection.Aggregate(context.TODO(), mongo.Pipeline{lookupQuery})
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		defer cursor.Close(ctx)
-	}
-	for cursor.Next(ctx) {
-		var result bson.M
-		err := cursor.Decode(&result)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			defer cursor.Close(ctx)
+	} else {
+		var projectLoaded []bson.M
+
+		if err = cursor.All(context.TODO(), &projectLoaded); err != nil {
+			panic(err)
+		} else {
+			c.JSON(200, gin.H{
+				"Projects": projectLoaded,
+			})
 		}
-		c.JSON(http.StatusOK, result)
+
+		/* for cursor.Next(ctx) {
+			var result bson.M
+			err := cursor.Decode(&result)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				defer cursor.Close(ctx)
+			}
+			c.JSON(http.StatusOK, result)
+		} */
+
 	}
 
 }
@@ -94,7 +109,7 @@ func AddSkillsToProjects(c *gin.Context) {
 
 		var work models.Project
 
-		err := projectCollection.FindOne(context.TODO(),bson.M{"_id": bson.M{"$eq": projectId}}).Decode(&work)
+		err := projectCollection.FindOne(context.TODO(), bson.M{"_id": bson.M{"$eq": projectId}}).Decode(&work)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -116,7 +131,7 @@ func AddSkillsToProjects(c *gin.Context) {
 		} else {
 			work.Skills = append(work.Skills, skillId)
 			c.JSON(http.StatusOK, gin.H{
-				"update":project,
+				"update":  project,
 				"project": work,
 			})
 		}

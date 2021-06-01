@@ -1,4 +1,4 @@
-module goRestAPI
+module Tristan
 
 go 1.16
 

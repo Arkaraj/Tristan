@@ -47,8 +47,6 @@ interface IProject {
 - [x] User should be able to create Projects
 - [x] User should be able to add/remove projects to their profile
 
-Need help in populating in mongo-driver...
-
 ### Routes
 
 - GET /api/user/ Show User full details
@@ -68,7 +66,7 @@ Need help in populating in mongo-driver...
 
 - Postman
 
-Link: https://www.getpostman.com/collections/7fd174330f0832455f0a
+Link: https://documenter.getpostman.com/view/8802598/TzY1iH55
 
 ### To Run it Locally
 

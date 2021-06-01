@@ -1,7 +1,7 @@
 package main
 
 import (
-	"goRestAPI/src/routes"
+	"Tristan/src/routes"
 
 	"github.com/gin-gonic/gin"
 )

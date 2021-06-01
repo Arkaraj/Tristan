@@ -1,9 +1,9 @@
 package routes
 
 import (
+	"Tristan/src/database"
+	"Tristan/src/models"
 	"context"
-	"goRestAPI/src/database"
-	"goRestAPI/src/models"
 	"net/http"
 	"time"
 
@@ -21,14 +21,27 @@ func ShowUser(c *gin.Context) {
 	var me models.User
 
 	filter := bson.M{"name": bson.M{"$eq": "Arkaraj"}}
+
+	lookupQuery1 := bson.D{{"$lookup", bson.D{{"from", "Skill"}, {"localField", "skills"}, {"foreignField", "_id"}, {"as", "mySkills"}}}}
+	lookupQuery2 := bson.D{{"$lookup", bson.D{{"from", "Project"}, {"localField", "projects"}, {"foreignField", "_id"}, {"as", "myProjects"}}}}
+
 	err := userCollection.FindOne(context.TODO(), filter).Decode(&me)
+
+	showLoadedCursor, err := userCollection.Aggregate(context.TODO(), mongo.Pipeline{lookupQuery1, lookupQuery2})
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 	} else {
-		c.JSON(200, gin.H{
-			"my Profile": me,
-		})
+
+		var userLoaded []bson.M
+
+		if err = showLoadedCursor.All(context.TODO(), &userLoaded); err != nil {
+			panic(err)
+		} else {
+			c.JSON(200, gin.H{
+				"my Profile": userLoaded,
+			})
+		}
 	}
 
 }
@@ -60,7 +73,7 @@ func AddUserDetails(c *gin.Context) {
 
 	//return the id of the created object to the frontend
 	c.JSON(http.StatusOK, gin.H{
-		"User":    user,
+		"User":       user,
 		"InsertedId": result.InsertedID,
 	})
 }
@@ -82,7 +95,7 @@ func AddSkillsToUser(c *gin.Context) {
 
 		var me models.User
 
-		err := userCollection.FindOne(context.TODO(),bson.M{"_id": bson.M{"$eq": userId}}).Decode(&me)
+		err := userCollection.FindOne(context.TODO(), bson.M{"_id": bson.M{"$eq": userId}}).Decode(&me)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -104,7 +117,7 @@ func AddSkillsToUser(c *gin.Context) {
 		} else {
 			me.Skills = append(me.Skills, skillId)
 			c.JSON(http.StatusOK, gin.H{
-				"update":user,
+				"update":     user,
 				"My Profile": me,
 			})
 		}
@@ -127,7 +140,7 @@ func AddProjectsToUser(c *gin.Context) {
 
 		var me models.User
 
-		err := userCollection.FindOne(context.TODO(),bson.M{"_id": bson.M{"$eq": userId}}).Decode(&me)
+		err := userCollection.FindOne(context.TODO(), bson.M{"_id": bson.M{"$eq": userId}}).Decode(&me)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -149,7 +162,7 @@ func AddProjectsToUser(c *gin.Context) {
 		} else {
 			me.Projects = append(me.Projects, projectId)
 			c.JSON(http.StatusOK, gin.H{
-				"update":userUpdate,
+				"update":     userUpdate,
 				"My Profile": me,
 			})
 		}
